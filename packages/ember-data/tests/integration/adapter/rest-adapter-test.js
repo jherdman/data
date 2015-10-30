@@ -1338,6 +1338,17 @@ test("queryRecord - data is normalized through custom serializers", function() {
   }));
 });
 
+test("queryRecord - doesn't shit the bed when an empty array of data is returned", function() {
+  ajaxResponse({
+    post: []
+  });
+
+  store.queryRecord('post', { slug: 'rails-is-omakaze' }).then(async(function(post) {
+    console.info('postttttt');
+    deepEqual(post, null);
+  }));
+});
+
 test("findMany - findMany uses a correct URL to access the records", function() {
   Post.reopen({ comments: DS.hasMany('comment', { async: true }) });
   adapter.coalesceFindRequests = true;
